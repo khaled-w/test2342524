@@ -19,6 +19,6 @@ jobs:
       - name: Run a one-line script
         run: |
           echo "test"
-          q=$(jq -cn '["a", "b", "c", "d"] as $array1 | ["c", "d", "e", "f"] as $array2 | $array1 - ($array1 - $array2)'
+          q=$(jq -cn '["a", "b", "c", "d"] as $array1 | ["c", "d", "e", "f"] as $array2 | $array1 - ($array1 - $array2)')
           ecoh "test result $q"
           echo "end test"
