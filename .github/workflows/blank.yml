@@ -21,6 +21,6 @@ jobs:
           echo "test"
           a1='["a", "b", "c", "d"]'
           a2='["c", "d", "e", "f"]'
-          q=$(jq -cn '$a1 as $array1 | $a2 as $array2 | $array1 - ($array1 - $array2)')
+          q=$(jq -cn --argjson a1 "$a1" --argjson a2 "$a2" | '$a1 - ($a1 - $a2)')
           echo "test result $q"
           echo "end test"
