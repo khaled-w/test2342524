@@ -15,6 +15,8 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - name: gh exec
+        run: gh api repos/${{ github.repository }}/actions/artifacts --paginate --jq '.artifacts[] | {name, id, size_in_bytes, created_at}'
       # Runs a single command using the runners shell
       - name: Run a one-line script
         if: ${{ contains('[]', 'hi') && github.event.label.name == 'l1' }}
