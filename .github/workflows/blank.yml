@@ -23,13 +23,14 @@ jobs:
         run: echo "job a"
   b:
     needs: [a]
-    if: always() && needs.check-code-style.result != 'failure'
+    if: always() && needs.a.result != 'failure'
     runs-on: ubuntu-latest
     steps:
       - name: print
         run: echo "job b"
   c:
     needs: [b]
+    if: always() && needs.b.result != 'failure'
     runs-on: ubuntu-latest
     steps:
       - name: print
