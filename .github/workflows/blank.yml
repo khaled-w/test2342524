@@ -23,7 +23,7 @@ jobs:
         run: echo "job a"
   b:
     needs: [a]
-    if: needs.check-code-style.result != 'failure'
+    if: always() && needs.check-code-style.result != 'failure'
     runs-on: ubuntu-latest
     steps:
       - name: print
