@@ -19,7 +19,7 @@ jobs:
         run: echo "Debug artifact content" > debug.txt
     
       - name: Upload dummy artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: debug-artifact
           path: debug.txt
