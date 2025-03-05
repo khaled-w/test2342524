@@ -24,10 +24,26 @@ jobs:
           name: ${{ github.event.pull_request.head.ref || github.ref_name }} artifact
           path: debug.txt
 
+      
       - name: gh exec
-        run: gh api repos/${{ github.repository }}/actions/artifacts --paginate --jq '.artifacts[] | {name, id, size_in_bytes, created_at}'
+        run: |
+          # Get list of all artifact IDs
+          artifacts=$(gh api repos/${{ github.repository }}/actions/artifacts \
+            --paginate --jq ".artifacts[] | {name, id, size_in_bytes, created_at}")
+
+          echo "Artifacts"
+          echo "$artifacts"
+
+          if [ -n "$artifacts" ]; then
+            for a in $artifacts; do
+              gh api --method DELETE repos/${{ github.repository }}/actions/artifacts/$a.id
+            done
+          else
+            echo "No artifacts found."
+          fi
         env:
           GH_TOKEN: ${{ github.token }}
+
       # Runs a single command using the runners shell
       - name: Run a one-line script
         if: ${{ contains('[]', 'hi') && github.event.label.name == 'l1' }}
