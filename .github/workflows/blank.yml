@@ -18,9 +18,9 @@ jobs:
           bash_array=("element1" "element2" "element3")
           
           # Convert the Bash array to a JSON array using jq
-          json_array=$(printf '%s\n' "${bash_array[@]}" | jq -R . | jq -s .)
+          json_array=$(jq -cn '$ARGS.positional' --args -- "${bash_array[@]}")
 
-          echo "Bash Array: [${bash_array[*]}]"
+          echo "Bash Array: ${bash_array[*]}"
           echo "JSON Array: $json_array"
 
       - name: print 2
@@ -29,8 +29,8 @@ jobs:
           bash_array=()
           
           # Convert the Bash array to a JSON array using jq
-          json_array=$(printf '%s\n' "${bash_array[@]}" | jq -R . | jq -s .)
+          json_array=$(jq -cn '$ARGS.positional' --args -- "${bash_array[@]}")
 
-          echo "Bash Array: [${bash_array[*]}]"
+          echo "Bash Array: ${bash_array[*]}"
           echo "JSON Array: $json_array"
 
