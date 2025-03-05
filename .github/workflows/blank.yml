@@ -17,7 +17,7 @@ jobs:
     steps:
       # Runs a single command using the runners shell
       - name: Run a one-line script
-        if: contains('[]', 'hi') && ${{ github.event.label.name == 'l1' }}
+        if: ${{ contains('[]', 'hi') && github.event.label.name == 'l1' }}
         run: |
           echo "test"
           
