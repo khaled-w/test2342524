@@ -6,11 +6,15 @@ name: CI
 on:
   workflow_dispatch:
   push:
-    branches: ["main"]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
+  init:
+    runs-on: ubuntu-latest
+    steps:
+      - name: print
+        run: echo "init"
+
   a:
     runs-on: ubuntu-latest
     if: ${{ '1' == '2' }}
