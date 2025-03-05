@@ -15,8 +15,19 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - name: Create dummy file
+        run: echo "Debug artifact content" > debug.txt
+    
+      - name: Upload dummy artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: debug-artifact
+          path: debug.txt
+
       - name: gh exec
-        run: gh api repos/${{ github.repository }}/actions/artifacts --paginate --jq '.artifacts[] | {name, id, size_in_bytes, created_at}'
+        run: |
+          set -x
+          gh api repos/${{ github.repository }}/actions/artifacts --paginate --jq '.artifacts[] | {name, id, size_in_bytes, created_at}'
         env:
           GH_TOKEN: ${{ github.token }}
       # Runs a single command using the runners shell
