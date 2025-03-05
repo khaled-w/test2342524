@@ -27,20 +27,20 @@ jobs:
       
       - name: gh exec
         run: |
-          # Get list of all artifact IDs
-          artifacts=$(gh api repos/${{ github.repository }}/actions/artifacts \
-            --paginate --jq ".artifacts[] | {name, id, size_in_bytes, created_at}")
-
-          echo "Artifacts"
-          echo "$artifacts"
-
-          if [ -n "$artifacts" ]; then
-            for a in $artifacts; do
-              gh api --method DELETE repos/${{ github.repository }}/actions/artifacts/$a.id
-            done
-          else
-            echo "No artifacts found."
-          fi
+          echo "Fetching artifacts..."
+          # Retrieve the artifacts JSON from the GitHub API (paginated)
+          artifacts_json=$(gh api repos/${{ github.repository }}/actions/artifacts --paginate)
+          
+          echo "Artifact Details:"
+          # Print details for each artifact: name, id, size_in_bytes, and created_at
+          echo "$artifacts_json" | jq '.artifacts[] | {name, id, size_in_bytes, created_at}'
+          
+          echo "Deleting artifacts..."
+          # Extract artifact IDs and delete each one
+          echo "$artifacts_json" | jq -r '.artifacts[] | .id' | while read id; do
+            echo "Deleting artifact with ID: $id"
+            gh api --method DELETE repos/${{ github.repository }}/actions/artifacts/$id
+          done
         env:
           GH_TOKEN: ${{ github.token }}
 
