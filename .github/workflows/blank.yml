@@ -12,27 +12,25 @@ jobs:
   init:
     runs-on: ubuntu-latest
     steps:
-      - name: print
-        run: echo "init"
+      - name: print 1
+        run: |
+          # Define the Bash array
+          bash_array=("element1" "element2" "element3")
+          
+          # Convert the Bash array to a JSON array using jq
+          json_array=$(printf '%s\n' "${bash_array[@]}" | jq -R . | jq -s .)
 
-  a:
-    runs-on: ubuntu-latest
-    if: ${{ '1' == '2' }}
-    steps:
-      - name: print
-        run: echo "job a"
-  b:
-    needs: [a]
-    if: always() && needs.a.result != 'failure' # && ${{ 1 == 2 }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: print
-        run: echo "job b"
-  c:
-    needs: [b]
-    if: always() && needs.b.result != 'failure'
-    runs-on: ubuntu-latest
-    steps:
-      - name: print
-        run: echo "job c"
+          echo "Bash Array: [${bash_array[*]}]"
+          echo "JSON Array: $json_array"
+
+      - name: print 2
+        run: |
+          # Define the Bash array
+          bash_array=()
+          
+          # Convert the Bash array to a JSON array using jq
+          json_array=$(printf '%s\n' "${bash_array[@]}" | jq -R . | jq -s .)
+
+          echo "Bash Array: [${bash_array[*]}]"
+          echo "JSON Array: $json_array"
 
