@@ -9,45 +9,23 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  a:
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    if: ${{ '1' == '2' }}
     steps:
-      - name: Create dummy file
-        run: echo "Debug artifact content" > debug.txt
-    
-      - name: Upload dummy artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ github.event.pull_request.head.ref || github.ref_name }} artifact
-          path: debug.txt
+      - name: print
+        run: echo "job a"
+  b:
+    needs: [a]
+    if: needs.check-code-style.result != 'failure'
+    runs-on: ubuntu-latest
+    steps:
+      - name: print
+        run: echo "job b"
+  c:
+    needs: [b]
+    runs-on: ubuntu-latest
+    steps:
+      - name: print
+        run: echo "job c"
 
-      
-      - name: gh exec
-        run: |
-          echo "Fetching artifacts..."
-          # Retrieve artifacts JSON from the GitHub API
-          artifacts_json=$(gh api repos/${{ github.repository }}/actions/artifacts --paginate)
-
-          echo "Artifact Details:"
-          # Print each artifact's details on a single line
-          echo "$artifacts_json" | jq -c '.artifacts[] | {name, id, size_in_bytes, created_at}'
-
-          echo "Deleting artifacts..."
-          # Extract artifact IDs and delete each one
-          echo "$artifacts_json" | jq -r '.artifacts[].id' | while read -r id; do
-            echo "Deleting artifact with ID: $id"
-            gh api --method DELETE repos/${{ github.repository }}/actions/artifacts/$id
-          done
-        env:
-          GH_TOKEN: ${{ github.token }}
-
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        if: ${{ contains('[]', 'hi') && github.event.label.name == 'l1' }}
-        run: |
-          echo "test"
-          
-          echo "end test"
