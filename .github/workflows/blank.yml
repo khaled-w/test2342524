@@ -23,7 +23,7 @@ jobs:
         run: echo "job a"
   b:
     needs: [a]
-    if: always() && needs.a.result != 'failure' && ${{ 1 == 2 }} # needs.a.result != 'failure'
+    if: always() && needs.a.result != 'failure' # && ${{ 1 == 2 }}
     runs-on: ubuntu-latest
     steps:
       - name: print
