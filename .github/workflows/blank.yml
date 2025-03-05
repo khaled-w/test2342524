@@ -17,6 +17,8 @@ jobs:
     steps:
       - name: gh exec
         run: gh api repos/${{ github.repository }}/actions/artifacts --paginate --jq '.artifacts[] | {name, id, size_in_bytes, created_at}'
+        env:
+          GH_TOKEN: ${{ github.token }}
       # Runs a single command using the runners shell
       - name: Run a one-line script
         if: ${{ contains('[]', 'hi') && github.event.label.name == 'l1' }}
