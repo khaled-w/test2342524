@@ -14,23 +14,7 @@ jobs:
     steps:
       - name: print 1
         run: |
-          # Define the Bash array
-          bash_array=("element1" "element2" "element3")
-          
-          # Convert the Bash array to a JSON array using jq
-          json_array=$(jq -cn '$ARGS.positional' --args -- "${bash_array[@]}")
-
-          echo "Bash Array: ${bash_array[*]}"
-          echo "JSON Array: $json_array"
-
-      - name: print 2
-        run: |
-          # Define the Bash array
-          bash_array=()
-          
-          # Convert the Bash array to a JSON array using jq
-          json_array=$(jq -cn '$ARGS.positional' --args -- "${bash_array[@]}")
-
-          echo "Bash Array: ${bash_array[*]}"
-          echo "JSON Array: $json_array"
+          var1="hi"
+          var1=$var1^
+          echo "$var1"
 
