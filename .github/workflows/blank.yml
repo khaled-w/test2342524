@@ -29,6 +29,16 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
 
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: multiline command test
+        run: |
+          ver="hiiiii"
+          ver=${ver^}
+          echo "$ver"
+          gradle --version
+
       - name: Workflow Information
         uses: ./.github/actions/log-info
         with:
