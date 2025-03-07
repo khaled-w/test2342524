@@ -5,16 +5,36 @@ name: CI
 # Controls when the workflow will run
 on:
   workflow_dispatch:
+    inputs:
+      i1:
+        description: input1
+        required: false
+        default: input1default
+      i2:
+        description: input2
+        required: false
   push:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  init:
+  # init:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: print 1
+  #       run: |
+  #         echo "$var1"
+  job2:
     runs-on: ubuntu-latest
     steps:
-      - name: print 1
-        run: |
-          var1="hi"
-          var1=${var1^}
-          echo "$var1"
+      - name: checkout
+        uses: actions/checkout@v4
 
+      - name: Workflow Information
+        uses: ./.github/actions/log-info
+        with:
+          inputs_object: ${{ toJSON(github.event.inputs) }}
+
+      - name: step1
+        uses: ./.github/actions/test
+        with:
+          v1: firstValue
