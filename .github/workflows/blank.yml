@@ -15,6 +15,6 @@ jobs:
       - name: print 1
         run: |
           var1="hi"
-          var1=$var1^
+          var1=${var1^}
           echo "$var1"
 
