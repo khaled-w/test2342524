@@ -2,48 +2,39 @@ name: Log Info
 description: Logs info about the workflow or action, and all its inputs.
 inputs:
   inputs_object:
-    description: The github.event.inputs object from the calling workflow
+    description: The inputs object from the calling workflow or action, wrapped in `toJSON()`.
     required: false
     default: '{}'
-  what:
-    description: What to log (workflow info, inputs, or both)
+  caller:
+    description: What called this action (workflow or another action)
     required: false
-    default: both
+    default: workflow
 runs:
   using: 'composite'
   steps:
     - name: Workflow Information
       shell: bash
-      run: |
-        set -e
-
-        # if [[ "$INPUTS" == "{}" ]]; then
-        #   echo "No inputs object provided."
-
-        # if [[ "${{ inputs.what }}" == "workflow" || "${{ inputs.what }}" == "both" ]]; then
-        #   echo "----------------------"
-        #   echo "Workflow Information:"
-        #   echo "----------------------"
-        #   echo "Workflow trigger event: ${{ github.event_name }}"
-        #   echo "Event action: ${{ github.event.action }}"
-        #   echo "Event label: ${{ github.event.label.name }}"
-        #   echo "PR base ref: ${{ github.event.pull_request.base.ref }}"
-        #   echo "PR head ref: ${{ github.event.pull_request.head.ref }}"
-        #   echo "PR labels: ${{ toJSON(github.event.pull_request.labels.*.name) }}"
-        #   echo "Ref: ${{ github.ref }}"
-        #   echo "Base ref: ${{ github.base_ref }}"
-        #   echo "Ref name: ${{ github.ref_name }}"
-        #   echo "Runner name: ${{ runner.name }}"
-        #   echo "Runner env: ${{ runner.environment }}"
-        #   echo "Runner OS: ${{ runner.os }}"
-        #   echo "----------------------"
-        # fi
-
-        if [[ "${{ inputs.what }}" == "inputs" || "${{ inputs.what }}" == "both" ]]; then
-          echo "Inputs:"
+      run: >-
+        if [[ "${{ inputs.caller }}" == "workflow" ]]; then
           echo "----------------------"
-          echo "1-----${{ inputs.inputs_object }}"
-          echo "2-----${{ toJSON(inputs.inputs_object) }}"
-          echo "3-----${{ fromJSON(inputs.inputs_object) }}"
-          # echo "----------------------"
+          echo "Workflow Information:"
+          echo "----------------------"
+          echo "Workflow trigger event: ${{ github.event_name }}"
+          echo "Event action: ${{ github.event.action }}"
+          echo "Event label: ${{ github.event.label.name }}"
+          echo "PR base ref: ${{ github.event.pull_request.base.ref }}"
+          echo "PR head ref: ${{ github.event.pull_request.head.ref }}"
+          echo "PR labels: ${{ toJSON(github.event.pull_request.labels.*.name) }}"
+          echo "Ref: ${{ github.ref }}"
+          echo "Base ref: ${{ github.base_ref }}"
+          echo "Ref name: ${{ github.ref_name }}"
+          echo "Runner name: ${{ runner.name }}"
+          echo "Runner env: ${{ runner.environment }}"
+          echo "Runner OS: ${{ runner.os }}"
         fi
+
+        echo "----------------------"
+        echo "Inputs:"
+        echo "----------------------"
+        echo "${{ inputs.inputs_object }}"
+        echo "----------------------"

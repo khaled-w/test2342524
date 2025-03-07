@@ -34,7 +34,7 @@ jobs:
         with:
           inputs_object: ${{ toJSON(github.event.inputs) }}
 
-      - name: step1
+      - name: Reused action
         uses: ./.github/actions/test
         with:
           v1: firstValue

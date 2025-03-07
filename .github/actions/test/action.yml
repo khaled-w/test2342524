@@ -16,12 +16,4 @@ runs:
       uses: ./.github/actions/log-info
       with:
         inputs_object: ${{ toJSON(inputs) }}
-        what: inputs
-
-    - name: Dummy step
-      shell: bash
-      run: |
-        v1=${{ inputs.v1 }}
-        echo "$v1"
-        echo "${{ inputs.v1 }}"
-        echo "Hello World!"
+        caller: action
