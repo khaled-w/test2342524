@@ -2,15 +2,42 @@ name: Reuser
 
 on:
   workflow_dispatch:
-  push:
+    inputs:
+      ri1:
+        description: rinput1
+        type: string
+        required: false
+        default: ri1 default
+      ri2:
+        description: rinput2
+        type: string
+        required: false
+      ri3:
+        description: r a boolean
+        type: boolean
+        required: false
+        default: false
+  # push:
+
+env:
+  env1: 'env var 1 value'
 
 jobs:
-  job1:
-    uses: ./.github/workflows/workflow1.yml
-    strategy:
-      matrix:
-        i3: [true, false]
-    with:
-      i1: this is i1 from reuser
-      i2: this is i2 from reuser
-      i3: ${{matrix.i3}}
+  config:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "env: ${{ env }}"
+          echo "toJSON(env): ${{ toJSON(env) }}"
+          envs=${{ env }}
+          echo "inputs: $envs"
+
+  # job1:
+  #   uses: ./.github/workflows/workflow1.yml
+  #   strategy:
+  #     matrix:
+  #       i3: [true, false]
+  #   with:
+  #     i1: this is i1 from reuser
+  #     i2: this is i2 from reuser
+  #     i3: ${{matrix.i3}}
