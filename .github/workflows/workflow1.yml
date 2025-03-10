@@ -11,6 +11,10 @@ on:
       i2:
         description: input2
         required: false
+      i3:
+        description: a boolean
+        required: false
+        default: false
   # push:
 
 jobs:
@@ -23,4 +27,28 @@ jobs:
       - name: Workflow Information
         uses: ./.github/actions/log-info
         with:
-          inputs_object: ${{ toJSON(github.event.inputs) }}
+          inputs_object: ${{ toJSON(inputs) }}
+
+      - name: boolean object is truly
+        if: ${{ inputs.i3 }}
+        run: echo "hi"
+
+      - name: oolean string is true
+        if: ${{ inputs.i3 == 'true'}}
+        run: echo "hi"
+
+      - name: boolean is true
+        if: ${{ inputs.i3 == true}}
+        run: echo "hi"
+
+      - name: boolean is falsy
+        if: ${{ !inputs.i3 }}
+        run: echo "hi"
+
+      - name: boolean string is false
+        if: ${{ inputs.i3 == 'false' }}
+        run: echo "hi"
+
+      - name: boolean is false
+        if: ${{ inputs.i3 == false }}
+        run: echo "hi"

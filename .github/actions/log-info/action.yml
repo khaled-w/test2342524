@@ -14,7 +14,7 @@ runs:
   steps:
     - name: Workflow Information
       shell: bash
-      run: >-
+      run: |
         if [[ "${{ inputs.caller }}" == "workflow" ]]; then
           echo "----------------------"
           echo "Workflow Information:"
