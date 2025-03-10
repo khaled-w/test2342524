@@ -17,13 +17,14 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # init:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: print 1
-  #       run: |
-  #         echo "$var1"
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: print 1
+        run: |
+          echo "o1='output1'" >> $GITHUB_OUTPUT
   job2:
+    needs: [job1]
     runs-on: ubuntu-latest
     steps:
       - name: checkout
@@ -48,3 +49,10 @@ jobs:
         uses: ./.github/actions/test
         with:
           v1: firstValue
+  job3:
+    needs: [job2]
+    runs-on: ubuntu-latest
+    steps:
+      - name: step1
+        run: |
+          echo "${{ toJSON(needs) }}"
