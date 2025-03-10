@@ -1,0 +1,21 @@
+name: Reuser
+
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      
+      - name: run ls
+        run: ls
+
+      - name: reuse workflow1
+        uses: ./.github/workflows/workflow1.yml
+        with:
+          i1: this is i1 from reuser
+          i2: this is i2 from reuser

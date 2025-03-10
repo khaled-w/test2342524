@@ -1,9 +1,7 @@
-# This is a basic workflow to help you get started with Actions
+name: Workflow1
 
-name: CI
-
-# Controls when the workflow will run
 on:
+  workflow_call:
   workflow_dispatch:
     inputs:
       i1:
@@ -13,9 +11,8 @@ on:
       i2:
         description: input2
         required: false
-  push:
+  # push:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   job1:
     runs-on: ubuntu-latest
