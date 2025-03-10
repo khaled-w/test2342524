@@ -6,16 +6,11 @@ on:
 
 jobs:
   job1:
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout
-        uses: actions/checkout@v4
-      
-      - name: run ls
-        run: ls
-
-      - name: reuse workflow1
-        uses: ./.github/workflows/workflow1.yml
-        with:
-          i1: this is i1 from reuser
-          i2: this is i2 from reuser
+    uses: ./.github/workflows/workflow1.yml
+    strategy:
+      matrix:
+        i3: [true, false]
+    with:
+      i1: this is i1 from reuser
+      i2: this is i2 from reuser
+      i3: ${{matrix.i3}}

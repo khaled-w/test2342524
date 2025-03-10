@@ -2,6 +2,21 @@ name: Workflow1
 
 on:
   workflow_call:
+    inputs:
+      i1:
+        description: input1
+        type: string
+        required: false
+        default: input1default
+      i2:
+        description: input2
+        type: string
+        required: false
+      i3:
+        description: a boolean
+        type: boolean
+        required: false
+        default: false
   workflow_dispatch:
     inputs:
       i1:
