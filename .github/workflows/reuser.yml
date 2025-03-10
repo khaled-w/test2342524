@@ -10,8 +10,9 @@ on:
         default: ri1 default
       ri2:
         description: rinput2
-        type: string
+        type: boolean
         required: false
+        default: false
       ri3:
         description: r a boolean
         type: boolean
@@ -26,11 +27,36 @@ jobs:
   config:
     runs-on: ubuntu-latest
     steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: Workflow Information
+        uses: ./.github/actions/log-info
+        with:
+          inputs_object: ${{ toJSON(inputs) }}
+
       - run: |
-          echo "env: ${{ env }}"
-          echo "toJSON(env): ${{ toJSON(env) }}"
-          envs=${{ env }}
-          echo "inputs: $envs"
+          tasks=()
+          echo "inputs.ri2 ${{ inputs.ri2 }}"
+          echo "inputs.ri2 == true ${{ inputs.ri2 == true }}"
+          echo "inputs.ri2 == false ${{ inputs.ri2 == false }}"
+          echo "inputs.ri2 == 'true' ${{ inputs.ri2 == 'true' }}"
+          echo "inputs.ri2 == 'false' ${{ inputs.ri2 == 'false' }}"
+          echo "inputs.ri3 ${{ inputs.ri3 }}"
+          echo "inputs.ri3 == true ${{ inputs.ri3 == true }}"
+          echo "inputs.ri3 == false ${{ inputs.ri3 == false }}"
+          echo "inputs.ri3 == 'true' ${{ inputs.ri3 == 'true' }}"
+          echo "inputs.ri3 == 'false' ${{ inputs.ri3 == 'false' }}"
+
+          if [[ ${{ inputs.ri2 }} == true ]]; then
+            tasks+=("r2_is_true")
+          fi
+          if [[ ${{ inputs.ri3 }} == true ]]; then
+            tasks+=("r3_is_true")
+          fi
+          echo "tasks: ${tasks[@]}"
+          tasks_json=$(jq -cn '$ARGS.positional' --args "${tasks[@]}")
+          echo "tasks json: $tasks_json"
 
   # job1:
   #   uses: ./.github/workflows/workflow1.yml
