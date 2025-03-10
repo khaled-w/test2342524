@@ -20,39 +20,10 @@ jobs:
   job1:
     runs-on: ubuntu-latest
     steps:
-      - name: print 1
-        run: |
-          echo "o1='output1'" >> $GITHUB_OUTPUT
-  job2:
-    needs: [job1]
-    runs-on: ubuntu-latest
-    steps:
       - name: checkout
         uses: actions/checkout@v4
-
-      - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v4
-
-      - name: multiline command test
-        run: |
-          ver="hiiiii"
-          ver=${ver^}
-          echo "$ver"
-          gradle --version
 
       - name: Workflow Information
         uses: ./.github/actions/log-info
         with:
           inputs_object: ${{ toJSON(github.event.inputs) }}
-
-      - name: Reused action
-        uses: ./.github/actions/test
-        with:
-          v1: firstValue
-  job3:
-    needs: [job2]
-    runs-on: ubuntu-latest
-    steps:
-      - name: step1
-        run: |
-          echo "${{ toJSON(needs) }}"
