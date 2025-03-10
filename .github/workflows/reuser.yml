@@ -37,26 +37,33 @@ jobs:
 
       - run: |
           tasks=()
-          echo "inputs.ri2 ${{ inputs.ri2 }}"
-          echo "inputs.ri2 == true ${{ inputs.ri2 == true }}"
-          echo "inputs.ri2 == false ${{ inputs.ri2 == false }}"
-          echo "inputs.ri2 == 'true' ${{ inputs.ri2 == 'true' }}"
-          echo "inputs.ri2 == 'false' ${{ inputs.ri2 == 'false' }}"
-          echo "inputs.ri3 ${{ inputs.ri3 }}"
-          echo "inputs.ri3 == true ${{ inputs.ri3 == true }}"
-          echo "inputs.ri3 == false ${{ inputs.ri3 == false }}"
-          echo "inputs.ri3 == 'true' ${{ inputs.ri3 == 'true' }}"
-          echo "inputs.ri3 == 'false' ${{ inputs.ri3 == 'false' }}"
+          # echo "inputs.ri2 ${{ inputs.ri2 }}"
+          # echo "inputs.ri2 == true ${{ inputs.ri2 == true }}"
+          # echo "inputs.ri2 == false ${{ inputs.ri2 == false }}"
+          # echo "inputs.ri2 == 'true' ${{ inputs.ri2 == 'true' }}"
+          # echo "inputs.ri2 == 'false' ${{ inputs.ri2 == 'false' }}"
+          # echo "inputs.ri3 ${{ inputs.ri3 }}"
+          # echo "inputs.ri3 == true ${{ inputs.ri3 == true }}"
+          # echo "inputs.ri3 == false ${{ inputs.ri3 == false }}"
+          # echo "inputs.ri3 == 'true' ${{ inputs.ri3 == 'true' }}"
+          # echo "inputs.ri3 == 'false' ${{ inputs.ri3 == 'false' }}"
 
-          if [[ ${{ inputs.ri2 }} == true ]]; then
-            tasks+=("r2_is_true")
-          fi
-          if [[ ${{ inputs.ri3 }} == true ]]; then
-            tasks+=("r3_is_true")
-          fi
-          echo "tasks: ${tasks[@]}"
-          tasks_json=$(jq -cn '$ARGS.positional' --args "${tasks[@]}")
-          echo "tasks json: $tasks_json"
+          is_ri2=${{ inputs.ri2 }}
+          is_ri3=${{ inputs.ri3 }}
+          echo "ri2: $is_ri2"
+          echo "ri3: $is_ri3"
+          combined=$is_ri2 == 'true' && $is_ri3 == 'true'
+          echo "combined: $combined"
+          echo "ri2 & ri3 ${{ inputs.ri2 && inputs.ri3 }}"
+          # if [[ ${{ inputs.ri2 }} == true ]]; then
+          #   tasks+=("r2_is_true")
+          # fi
+          # if [[ ${{ inputs.ri3 }} == true ]]; then
+          #   tasks+=("r3_is_true")
+          # fi
+          # echo "tasks: ${tasks[@]}"
+          # tasks_json=$(jq -cn '$ARGS.positional' --args "${tasks[@]}")
+          # echo "tasks json: $tasks_json"
 
   # job1:
   #   uses: ./.github/workflows/workflow1.yml

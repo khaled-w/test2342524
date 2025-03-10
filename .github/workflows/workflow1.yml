@@ -44,26 +44,35 @@ jobs:
         with:
           inputs_object: ${{ toJSON(inputs) }}
 
-      - name: boolean object is truly
-        if: ${{ inputs.i3 }}
-        run: echo "hi"
+      - name: test if statement
+        run: |
+          shopt -s nocasematch
+          if [[ ${{ inputs.i1 }} == "pro"* ]]; then
+            echo "starts with pro"
+          else
+            echo "does not start with pro"
+          fi
 
-      - name: oolean string is true
-        if: ${{ inputs.i3 == 'true'}}
-        run: echo "hi"
+      # - name: boolean object is truly
+      #   if: ${{ inputs.i3 }}
+      #   run: echo "hi"
 
-      - name: boolean is true
-        if: ${{ inputs.i3 == true}}
-        run: echo "hi"
+      # - name: oolean string is true
+      #   if: ${{ inputs.i3 == 'true'}}
+      #   run: echo "hi"
 
-      - name: boolean is falsy
-        if: ${{ !inputs.i3 }}
-        run: echo "hi"
+      # - name: boolean is true
+      #   if: ${{ inputs.i3 == true}}
+      #   run: echo "hi"
 
-      - name: boolean string is false
-        if: ${{ inputs.i3 == 'false' }}
-        run: echo "hi"
+      # - name: boolean is falsy
+      #   if: ${{ !inputs.i3 }}
+      #   run: echo "hi"
 
-      - name: boolean is false
-        if: ${{ inputs.i3 == false }}
-        run: echo "hi"
+      # - name: boolean string is false
+      #   if: ${{ inputs.i3 == 'false' }}
+      #   run: echo "hi"
+
+      # - name: boolean is false
+      #   if: ${{ inputs.i3 == false }}
+      #   run: echo "hi"
